@@ -1,0 +1,31 @@
+spring:
+  app:
+    version: 0.0.1
+  config.activate.on-profile: dev
+  profiles:
+    active: dev
+  output:
+    ansi:
+      enabled: always
+  jpa:
+    show-sql: true 
+    hibernate:
+      ddl-auto: update
+  #jpa show-sql:true con esta etiqueta nos permite ver las querys que se ejecutan
+      
+server:
+  port: 8031
+  servlet:
+    contextPath: /PrototypeSprintBoot
+
+spring.flyway.enabled: false
+spring.datasource.driver-class-name: org.h2.Driver
+spring.datasource.url: jdbc:h2:mem:bugtracker
+spring.datasource.username: sa
+spring.datasource.password: 
+spring.h2.console.enabled: true
+spring.h2.console.path: /h2
+spring.datasource.hikari.connectionTimeout: 10000
+spring.datasource.hikari.maxLifetime: 1800000 # Vida últil máxima de una conexión sin uso en el pool será 30 minutos
+spring.datasource.hikari.leakDetectionThreshold: 30000
+spring.datasource.hikari.maximumPoolSize: 15

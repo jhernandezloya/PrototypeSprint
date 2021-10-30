@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+     <property name="HOME_LOG" value="logs/app.log"/>
+
+    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            each archived file, size max 10MB
+            <maxFileSize>10MB</maxFileSize>
+            total size of all archive files, if total size > 20GB, 
+				it will delete old archived file
+            <totalSizeCap>20GB</totalSizeCap>
+            60 days to keep
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyyMMdd'T'HHmmss} %20c - %m%n</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    	<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyyMMdd'T'HHmmss} %-10level |Nombre de la clase: %logger{1}| Nombre del metodo: %M | Linea: %line | Mensaje: %msg%n
+            </pattern>
+        </encoder>
+        <!-- 
+        
+        %d{HH:mm:ss.SSS} %green([%thread]) %highlight(%-5level) (%logger{50}.%M\(%line\)) - (%msg%n) -->
+        <!-- %d - tiempo -->
+        <!-- %-20level Separacion-->
+        <!-- %p or %level- tipo (INFO,DEBUG,ERROR,WARN) -->
+        <!-- %c - nombre de la clase -->
+        <!-- %n - salto de linea -->
+        <!-- %msg - el mensaje que se deja en log.info("The application is: " + application.toString()); -->
+        <!-- %n - el numero de linea -->
+        <!-- %class or %logger - nombre de la clase, or nombre de la clase que tiene el logger -->
+        <!-- %M - nombre del metodo de la clase -->
+        <!-- %thread - nombre del hilo -->
+        <!-- %line - el numero de linea -->
+    </appender>
+
+
+    
+    <!--   CON ESTA LINEA HACE TODO EL LOGGER PARA EL ARCHIVO EL LEVEL LO COLOCAMOS SEGUN LA PRIORIDAD QUE TENGAMOS-->
+    <logger name="cl.prototype" level="INFO, ERROR" additivity="false">
+        <appender-ref ref="FILE-ROLLING"/>
+    </logger>
+    
+    
+    
+    <logger name="cl.prototype" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+	<!-- el root siempre toma el ultimo logger name que esta escrito solo para debug es decir  <logger name="cl.prototype" level="DEBUG" additivity="false"> -->
+	<!--  level="OFF" NOS PERMITE NO ESCRIBIR TODO EL LOG QUE SE GENERA POR EL PROYECTO SPRING-->
+    <root level="off">
+    <!--  ref="STDOUT" DE PREFERENCIA LA CONSOLOA -->
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
